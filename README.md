@@ -8,6 +8,7 @@ Clone the repo, `git clone git@github.com:apburton84/yii-coffeescript-extension.
 
 add the coffeescript extension as a component to your yii configuration.
 
+```php
 // application components
 'components' => array(
     'coffeescript' => array( 
@@ -19,3 +20,4 @@ add the coffeescript extension as a component to your yii configuration.
     ), 
     ...
 )
+```
