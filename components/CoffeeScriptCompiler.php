@@ -1,13 +1,13 @@
 <?php
 /**
- * LessCompiler class file.
- * @author Christoffer Niska <ChristofferNiska@gmail.com>
- * @copyright Copyright &copy; Christoffer Niska 2011-
+ * CofeeScriptCompiler class file.
+ * @author Anthony Burton <apburton84@googlemail.com>
+ * @copyright Copyright &copy; Anthony Burton  2012 -
  * @license http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @version 0.10.0
  */
 
-// - Do we need to include all file ? 
+// FIXME - Do we need to include all file ? 
 // foreach (glob(dirname(__FILE__). "/../lib/coffeescript-php/src/CoffeeScript/*.php") as $filename) {
 //    include $filename;
 // }
@@ -30,10 +30,14 @@ class CoffeeScriptCompiler extends CApplicationComponent
      */
     public $forceCompile = false;
     /**
-     * @var lessc LESS compiler instance.
+     * @var CoffeeScript compiler instance.
      */
     protected $_parser;
-
+    /**
+     * @var Log Trace of CoffeeScript compile to file.
+     */
+    public $trace = false;
+  
     /**
      * Initializes the component.
      * @throws CException if the base path does not exist.
@@ -49,16 +53,17 @@ class CoffeeScriptCompiler extends CApplicationComponent
         if (!is_dir($this->basePath))
             throw new CException(__CLASS__.': Failed to initialize compiler. Base path is not a directory!');
 
-        // $this->_parser = new lessc();
+        if (!isset($this->trace))
+            $this->options['trace'] = true;
 
-        if ($this->forceCompile || $this->hasChanges())
+        if ($this->compile || $this->hasChanges())
             $this->compileAll();
     }
 
     /**
-     * Compiles a LESS file to a CSS file.
-     * @param string $from the path to the source LESS file.
-     * @param string $to the path to the target CSS file.
+     * Compiles a CoffeeScript file to a Javascript file.
+     * @param string $from the path to the source CoffeeSript file(s).
+     * @param string $to the path to the target Javascript file.
      * @throws CException if the compilation fails or the source path does not exist.
      */
     public function compile($from, $to)
@@ -70,28 +75,15 @@ class CoffeeScriptCompiler extends CApplicationComponent
 
         if (file_exists($from))
         {
-            /* 
-             *      OLD LESS CODE
-            try
-            {
-                $this->_parser->importDir = dirname($from); // Set the correct context.
-                file_put_contents($to, $this->_parser->parse(file_get_contents($from)));
-            }
-            catch (exception $e)
-            {
-                throw new CException(__CLASS__.': Failed to compile less file with message: '.$e->getMessage().'.');
-            }
-            */
-
             try
             {
                 $coffee = file_get_contents($from);
-                $js     = CoffeeScript\Compiler::compile($coffee, array('filename' => $from));
-                file_put_contents($to, $js);
+                $js     = CoffeeScript\Compiler::compile($coffee, $this->options);
+                
+                file_put_contents($to, $js, FILE_APPEND | LOCK_EX);
 
-                $baseUrl = Yii::app()->baseUrl; 
                 $cs = Yii::app()->getClientScript();
-                $cs->registerScriptFile($baseUrl . '/' .  $to, CClientScript::POS_END);            
+                $cs->registerScriptFile($this->baseUrl . '/' . $to, CClientScript::POS_END);            
             }
             catch (Exception $e)
             {
@@ -104,14 +96,14 @@ class CoffeeScriptCompiler extends CApplicationComponent
     }
 
     /**
-     * Compiles all LESS files.
+     * Compiles all CoffeeScript files.
      */
     protected function compileAll()
     {
-        foreach ($this->paths as $lessPath => $cssPath)
+        foreach ($this->paths as $coffeePath => $jsPath)
         {
-            $from = $this->basePath . '/' . $lessPath;
-            $to   = $cssPath;
+            $from = $this->basePath . '/' . $coffeePath;
+            $to   = $jsPath;
             
             $this->compile($from, $to);
         }
