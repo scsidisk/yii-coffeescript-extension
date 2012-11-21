@@ -83,3 +83,7 @@ or, if you want to concatenate multiple files in to a single CoffeeScript file.
     ),
 ),
 ```
+Contributing
+------------
+
+Pull requests welcome ;-)
