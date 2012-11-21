@@ -61,6 +61,8 @@ Available options:
 Usage
 -----
 
+To compile a list of files to the respective CoffeeScript files.
+
     'coffeescript' => array( 
         'class' => 'ext.coffeescript.components.CoffeeScriptCompiler', 
         'paths' => array( 
@@ -68,7 +70,7 @@ Usage
         ),
     ),
 
-or, if you will to concatenate multiple files.
+or, if you want to concatenate multiple files in to a single CoffeeScript file.
 
     'coffeescript' => array( 
         'class' => 'ext.coffeescript.components.CoffeeScriptCompiler', 
