@@ -52,10 +52,10 @@ Available options:
 ### Example
 
 ```php
-    'coffeescript' => array( 
-        'force' => false, 
-        ...
-    ),
+'coffeescript' => array( 
+    'force' => false, 
+    ...
+),
 ```
 
 Usage
@@ -63,19 +63,22 @@ Usage
 
 To compile a list of files to the respective CoffeeScript files.
 
-    'coffeescript' => array( 
-        'class' => 'ext.coffeescript.components.CoffeeScriptCompiler', 
-        'paths' => array( 
-            'coffee/test.coffee' => 'js/test.js', 
-        ),
+```php
+'coffeescript' => array( 
+    'class' => 'ext.coffeescript.components.CoffeeScriptCompiler', 
+    'paths' => array( 
+        'coffee/test.coffee' => 'js/test.js', 
     ),
+),
 
 or, if you want to concatenate multiple files in to a single CoffeeScript file.
 
-    'coffeescript' => array( 
-        'class' => 'ext.coffeescript.components.CoffeeScriptCompiler', 
-        'paths' => array( 
-            'js/test.js' => array('coffee/test-1.coffee', 'coffee/test-2.coffee'), 
-            ...
-        ),
+```php
+'coffeescript' => array( 
+    'class' => 'ext.coffeescript.components.CoffeeScriptCompiler', 
+    'paths' => array( 
+        'js/test.js' => array('coffee/test-1.coffee', 'coffee/test-2.coffee'), 
+        ...
     ),
+),
+```
