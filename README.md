@@ -12,7 +12,7 @@ Installation
 ------------
 
 Clone the repo 
-    git clone git@github.com:apburton84/yii-coffeescript-extension.git`, 
+    git clone git@github.com:apburton84/yii-coffeescript-extension.git, 
 or 
     [download the latest release](https://github.com/apburton84/yii-coffeescript-extension/zipball/master).
 
