@@ -70,6 +70,7 @@ To compile a list of files to the respective CoffeeScript files.
         'coffee/test.coffee' => 'js/test.js', 
     ),
 ),
+```
 
 or, if you want to concatenate multiple files in to a single CoffeeScript file.
 
